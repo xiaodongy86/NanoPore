@@ -2,35 +2,28 @@ Converting FASTQ format to FASTA
 There are several ways you can convert fastq to fasta sequences. Some methods are listed below.
 
 #Using SED
-```bash
+```
 sed can be used to selectively print the desired lines from a file, so if you print the first and 2rd line of every 4 lines, you get the sequence header and sequence needed for fasta format.
-```bash
-
-```bash
 sed -n '1~4s/^@/>/p;2~4p' INFILE.fastq > OUTFILE.fasta
-```bash
-
+```
 #Using PASTE
 #You can linerize every 4 lines in a tabular format and print first and second field using paste
 
-```bash
+```
 cat INFILE.fastq | paste - - - - |cut -f 1, 2| sed 's/@/>/'g | tr -s "/t" "/n" > OUTFILE.fasta
-```bash
+```
 
 #EMBOSS:seqret
 #Standard script that can be used for many purposes. One such use is fastq-fasta conversion
 
-```bash
+```
 seqret -sequence reads.fastq -outseq reads.fasta
-```bash
-
+```
 #awk can be used for conversion as follows:
 #Using AWK
-
-```bash
+```
 cat infile.fq | awk '{if(NR%4==1) {printf(">%s\n",substr($0,2));} else if(NR%4==2) print;}' > file.fa
-```bash
-
+```
 #FASTX-toolkit
 #fastq_to_fasta is available in the FASTX-toolkit that scales really well with the huge datasets
 
@@ -53,15 +46,15 @@ version 0.0.6
 #Bioawk
 #Another option to convert fastq to fasta format using bioawk
 
-```bash
+```
 bioawk -c fastx '{print ">"$name"\n"$seq}' input.fastq > output.fasta
-```bash
+```
 
 #Seqtk
 #From the same developer, there is another option using a tool called seqtk
 
-```bash
+```
 seqtk seq -a input.fastq > output.fasta
-```bash
+```
 Note that you can use either compressed or uncompressed files for this tool
 
